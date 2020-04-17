@@ -8,4 +8,4 @@ datasets目录下的`train_VID_list.txt`等txt文件可通过`get_VID_list.py`, 
 - `train_VID_seqs_list.txt`: 把`train_VID_list.txt`的10行合成1行
 - `val_VID_seqs_list.txt`: 同理
 # 环境
-- python 3.6
+- python 3.6 (3.5会报错)
