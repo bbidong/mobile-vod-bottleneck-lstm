@@ -11,7 +11,7 @@ datasets目录下的`train_VID_list.txt`等txt文件可通过`get_VID_list.py`, 
 - python 3.6 (3.5会报错)
 # 文件结构
 - `evaluate.py`: 把预测结果按class保存在`eval_results`下，以`det_test_airplane.txt`为例，格式如下，从左往右依次为 img路径，score概率，x1, y1, x2, y2 
-> ILSVRC2015_val_00000000/000006 0.010405004 442.01465 26.026163 619.0668 200.16707
+  > ILSVRC2015_val_00000000/000006 0.010405004 442.01465 26.026163 619.0668 200.16707
 
 然后计算每个预测结果和对应Annotations的IOU, 如果IOU>阈值，则为TP, 否则为FP, 接着得到precision, recall, 计算AP
 - `datasets/vid_dataset.py`: 读取数据集，读取Annotations
