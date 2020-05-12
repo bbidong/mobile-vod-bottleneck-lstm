@@ -18,5 +18,5 @@ datasets目录下的`train_VID_list.txt`等txt文件可通过`get_VID_list.py`, 
 - `datasets/vid_dataset_new.py`: train的时候用
   - class ImagenetDataset: single frame用，`self.db`保存着训练数据的image_path, boxes, lables, 会把内容保存在目录`cache/train_VID_gt_db.pkl`下，如文件存在会直接从文件读取， 格式如下：
     ![](fig/ImagenetDataset_db.PNG)
-- `dataloaders/data_preprocessing.py`: 处理数据，resize, mean, std等
+- `dataloaders/data_preprocessing.py`: train,val和test阶段的处理transform，包括数据增强，resize, mean, std等
 - `network/predictor.py`: 给定img，进行数据处理（按照config/mobilenetv1_ssd_config.py的参数resize,mean,std）, 模型前传，nmt筛选，输出预测结果
