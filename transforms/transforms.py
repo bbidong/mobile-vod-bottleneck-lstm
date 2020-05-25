@@ -175,7 +175,7 @@ class ConvertColor(object):
 			raise NotImplementedError
 		return image, boxes, labels
 
-
+# 随机变换对比度
 class RandomContrast(object):
 	def __init__(self, lower=0.5, upper=1.5):
 		self.lower = lower
@@ -190,7 +190,7 @@ class RandomContrast(object):
 			image *= alpha
 		return image, boxes, labels
 
-
+# img加减某个值随机变换亮度
 class RandomBrightness(object):
 	def __init__(self, delta=32):
 		assert delta >= 0.0
@@ -385,15 +385,15 @@ class SwapChannels(object):
 class PhotometricDistort(object):
 	def __init__(self):
 		self.pd = [
-			RandomContrast(),  # RGB
+			RandomContrast(),  # RGB    随机变换对比度
 			ConvertColor(current="RGB", transform='HSV'),  # HSV
-			RandomSaturation(),  # HSV
-			RandomHue(),  # HSV
+			RandomSaturation(),  # HSV   随机变换饱和度
+			RandomHue(),  # HSV        随机变换色度
 			ConvertColor(current='HSV', transform='RGB'),  # RGB
 			RandomContrast()  # RGB
 		]
-		self.rand_brightness = RandomBrightness()
-		self.rand_light_noise = RandomLightingNoise()
+		self.rand_brightness = RandomBrightness()    # 随机变换亮度
+		self.rand_light_noise = RandomLightingNoise()  # 随机变换通道
 
 	def __call__(self, image, boxes, labels):
 		im = image.copy()

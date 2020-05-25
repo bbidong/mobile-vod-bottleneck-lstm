@@ -47,7 +47,7 @@ for dir in dirs:
 			seqs = ''
 			for j in range(0,10):
 				seqs = seqs + filtered_image_list[10*i + j] + ','
-			seqs = seqs[:-1]
+			seqs = seqs[:-1]  # 去掉最后的逗号
 			file_write_obj.writelines(seqs)
 			file_write_obj.write('\n')
 file_write_obj.close()

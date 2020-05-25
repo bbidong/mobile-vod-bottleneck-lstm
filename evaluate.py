@@ -26,14 +26,15 @@ import pathlib
 import numpy as np
 import logging
 import sys
+import os
 
 
 parser = argparse.ArgumentParser(description="MVOD Evaluation on VID dataset")
 parser.add_argument('--net', default="lstm5",
 					help="The network architecture, it should be of basenet, lstm1, lstm2, lstm3, lstm4 or lstm5.")
-parser.add_argument("--trained_model", type=str)
-parser.add_argument("--dataset", type=str, help="The root directory of the VOC dataset or Open Images dataset.")
-parser.add_argument("--label_file", type=str, help="The label file path.")
+parser.add_argument("--trained_model", default="models/basenet/WM-1.0-Epoch-2-Loss-4.629070136970256.pth",type=str)
+parser.add_argument("--dataset", type=str,default='datasets/ILSVRC2017_VID/ILSVRC', help="the directory contains the following sub-directories:Annotations, ImageSets, Data")
+parser.add_argument("--label_file", type=str,default='models/vid-model-labels.txt', help="The label file path.")
 parser.add_argument("--use_cuda", type=str2bool, default=True)
 parser.add_argument("--nms_method", type=str, default="hard")
 parser.add_argument("--iou_threshold", type=float, default=0.5, help="The threshold of Intersection over Union.")
@@ -46,14 +47,17 @@ device = torch.device("cuda:0" if torch.cuda.is_available() and args.use_cuda el
 
 def group_annotation_by_class(dataset):
 	""" Groups annotations of dataset by class
+
+		true_case_stat: 每个class出现了多少次
+		all_gt_boxes:  all_gt_boxes[class_index][image_id]存着所有的gt_box
 	"""
 	true_case_stat = {}
 	all_gt_boxes = {}
-	for i in range(len(dataset)):
+	for i in range(len(dataset)):   # 循环每个img
 		image_id, annotation = dataset.get_annotation(i)
 		gt_boxes, classes = annotation
 		gt_boxes = torch.from_numpy(gt_boxes)
-		for i in range(0,len(classes)):
+		for i in range(0,len(classes)):  # 循环每个img的每个object
 			class_index = int(classes[i])
 			gt_box = gt_boxes[i]
 			true_case_stat[class_index] = true_case_stat.get(class_index, 0) + 1
@@ -65,13 +69,19 @@ def group_annotation_by_class(dataset):
 
 	for class_index in all_gt_boxes:
 		for image_id in all_gt_boxes[class_index]:
-			all_gt_boxes[class_index][image_id] = torch.stack(all_gt_boxes[class_index][image_id])
+			all_gt_boxes[class_index][image_id] = torch.stack(all_gt_boxes[class_index][image_id])  # list进行stack
 	return true_case_stat, all_gt_boxes
 
 
 def compute_average_precision_per_class(num_true_cases, gt_boxes,
 										prediction_file, iou_threshold, use_2007_metric):
 	""" Computes average precision per class
+
+		num_true_cases 和 gt_boxes 是从Annotations读取的信息
+			num_true_cases: 这个class出现了多少次
+			gt_boxes:  gt_boxes[image_id]存着对应的gt_box
+
+		prediction_file存着模型的输出结果, 依次为 img路径, score概率, x1, y1, x2, y2
 	"""
 	with open(prediction_file) as f:
 		image_ids = []
@@ -85,22 +95,24 @@ def compute_average_precision_per_class(num_true_cases, gt_boxes,
 			box -= 1.0  # convert to python format where indexes start from 0
 			boxes.append(box)
 		scores = np.array(scores)
-		sorted_indexes = np.argsort(-scores)
+		sorted_indexes = np.argsort(-scores)  # index从大到小排序
+		# boxes , image_ids 按 scores 大小排序
 		boxes = [boxes[i] for i in sorted_indexes]
 		image_ids = [image_ids[i] for i in sorted_indexes]
 		true_positive = np.zeros(len(image_ids))
 		false_positive = np.zeros(len(image_ids))
 		matched = set()
+		# 得到FP, TP
 		for i, image_id in enumerate(image_ids):
 			box = boxes[i]
-			if image_id not in gt_boxes:
+			if image_id not in gt_boxes:  # 预测有而实际没有
 				false_positive[i] = 1
 				continue
 
-			gt_box = gt_boxes[image_id]
-			ious = box_utils.iou_of(box, gt_box)
+			gt_box = gt_boxes[image_id]    # gt_box可能有多个
+			ious = box_utils.iou_of(box, gt_box)   # predicted boxes和每个ground truth boxes 的 IoU
 			max_iou = torch.max(ious).item()
-			max_arg = torch.argmax(ious).item()
+			max_arg = torch.argmax(ious).item()   # max_arg表示和预测结果最吻合的是第几个gt_box
 			if max_iou > iou_threshold:
 				if (image_id, max_arg) not in matched:
 					true_positive[i] = 1
@@ -109,7 +121,7 @@ def compute_average_precision_per_class(num_true_cases, gt_boxes,
 					false_positive[i] = 1
 			else:
 				false_positive[i] = 1
-
+	# 得到precision, recall, 计算AP
 	true_positive = true_positive.cumsum()
 	false_positive = false_positive.cumsum()
 	precision = true_positive / (true_positive + false_positive)
@@ -120,7 +132,9 @@ def compute_average_precision_per_class(num_true_cases, gt_boxes,
 		return measurements.compute_average_precision(precision, recall)
 
 
+
 if __name__ == '__main__':
+	os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 	eval_path = pathlib.Path(args.eval_dir)
 	eval_path.mkdir(exist_ok=True)
 	timer = Timer()
@@ -197,7 +211,7 @@ if __name__ == '__main__':
 		], dim=1)
 		if(tmprslt.shape[0] > 0):
 			results.append(tmprslt)
-		
+
 	with open('log.txt','w') as fp:
 		for i in range(0,len(results)):
 			print(results[i],file=fp)

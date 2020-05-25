@@ -219,7 +219,7 @@ class ImagenetDataset:
 
 		self._name_to_class = {self._classes_map[i]: self._classes_names[i] for i in range(len(self._classes_names))}
 		self._class_to_ind = {classes_name: i for i, classes_name in enumerate(self._classes_names)}
-		self.db = self.gt_roidb() 
+		self.db = self.gt_roidb()   # 保存着训练数据的image_path, boxes, lables
 
 	def __getitem__(self, index):
 		data = self.db[index]
@@ -228,7 +228,7 @@ class ImagenetDataset:
 		image = self._read_image(data['image'])
 		if self.transform:
 			image, boxes, labels = self.transform(image, boxes, labels)
-		if self.target_transform:
+		if self.target_transform:   # SSD的transform
 			boxes, labels = self.target_transform(boxes, labels)
 		return image, boxes, labels
 
@@ -256,9 +256,9 @@ class ImagenetDataset:
 
 	def load_vid_annotation(self, i):
 		"""
-		for a given index, load image and bounding boxes info from XML file
+		for a given index, load image path and bounding boxes info from XML file
 		:param index: index of a specific image
-		:return: record['boxes', 'labels']
+		:return: record['image','boxes', 'labels']
 		"""
 		index = self.ids[i]
 		roi_rec = dict()
@@ -286,6 +286,7 @@ class ImagenetDataset:
 		roi_rec['boxes'] = np.array(boxes, dtype=np.float32)
 		roi_rec['labels'] = np.array(labels, dtype=np.int64)
 		return roi_rec
+
 	def image_path_from_index(self, image_id):
 		"""
 		given image index, find out full path

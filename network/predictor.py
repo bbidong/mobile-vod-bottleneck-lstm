@@ -14,7 +14,7 @@ class Predictor:
 		"""Implement Predictor while testing of the model
 		Arguments:
 			net: an object of net to used for prediction
-			size: variable containing size of image as input
+			size: 进行resize
 			mean: an array variable containing mean value of all the channels of input
 			std: variable containing standard deviation of image as input
 			nms_method : string variable contaning type of negative mining
@@ -54,15 +54,15 @@ class Predictor:
 		"""
 		cpu_device = torch.device("cpu")
 		height, width, _ = image.shape
-		image = self.transform(image)
+		image = self.transform(image)   # resize, mean, std
 		images = image.unsqueeze(0)
 		images = images.to(self.device)
 		with torch.no_grad():
 			self.timer.start()
-			scores, boxes = self.net.forward(images)
+			scores, boxes = self.net.forward(images)   # scores的值是概率，boxes的值是所占边的比例
 			print("Inference time: ", self.timer.end())
-		boxes = boxes[0]
-		scores = scores[0]
+		boxes = boxes[0]   # (3234,4)
+		scores = scores[0]   # (3234,31)
 		if not prob_threshold:
 			prob_threshold = self.filter_threshold
 		# this version of nms is slower on GPU, so we move data to CPU.
@@ -70,7 +70,8 @@ class Predictor:
 		scores = scores.to(cpu_device)
 		picked_box_probs = []
 		picked_labels = []
-		for class_index in range(1, scores.size(1)):
+		# nmt筛选结果
+		for class_index in range(1, scores.size(1)):   # 0是background, 不算
 			probs = scores[:, class_index]
 			mask = probs > prob_threshold
 			probs = probs[mask]
@@ -84,13 +85,19 @@ class Predictor:
 									  sigma=self.sigma,
 									  top_k=top_k,
 									  candidate_size=self.candidate_size)
-			picked_box_probs.append(box_probs)
-			picked_labels.extend([class_index] * box_probs.size(0))
+			picked_box_probs.append(box_probs)   # 筛选后的box和score, shape=[num,5]
+			picked_labels.extend([class_index] * box_probs.size(0))  # 筛选后对应的class
+
+		# 什么也没检测到, 返回无
 		if not picked_box_probs:
 			return torch.tensor([]), torch.tensor([]), torch.tensor([])
+		# 检测到，返回结果
 		picked_box_probs = torch.cat(picked_box_probs)
-		picked_box_probs[:, 0] *= width
+		picked_box_probs[:, 0] *= width   # 比例x边长
 		picked_box_probs[:, 1] *= height
 		picked_box_probs[:, 2] *= width
 		picked_box_probs[:, 3] *= height
 		return picked_box_probs[:, :4], torch.tensor(picked_labels), picked_box_probs[:, 4]
+		# [num,4]   box
+		# [num]     class
+		# [num]     score

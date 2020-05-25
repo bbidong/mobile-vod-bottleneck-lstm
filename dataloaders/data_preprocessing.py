@@ -14,12 +14,12 @@ class TrainAugmentation:
         self.mean = mean
         self.size = size
         self.augment = Compose([
-            ConvertFromInts(),
-            PhotometricDistort(),
+            ConvertFromInts(),      # 把img的type从int变为float
+            PhotometricDistort(),   # 图像扭曲（亮度色度对比度等）
             Expand(self.mean),
-            RandomSampleCrop(),
-            RandomMirror(),
-            ToPercentCoords(),
+            RandomSampleCrop(),     # 随机剪裁
+            RandomMirror(),         # 随机镜像
+            ToPercentCoords(),      # box换成百分比
             Resize(self.size),
             SubtractMeans(self.mean),
             lambda img, boxes=None, labels=None: (img / std, boxes, labels),
@@ -50,7 +50,7 @@ class TestTransform:
     def __call__(self, image, boxes, labels):
         return self.transform(image, boxes, labels)
 
-
+# evaluate的时候用
 class PredictionTransform:
     def __init__(self, size, mean=0.0, std=1.0):
         self.transform = Compose([

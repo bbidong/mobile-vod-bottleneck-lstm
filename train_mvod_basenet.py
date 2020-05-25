@@ -28,17 +28,18 @@ from datasets.vid_dataset_new import ImagenetDataset
 from network.multibox_loss import MultiboxLoss
 from config import mobilenetv1_ssd_config
 from dataloaders.data_preprocessing import TrainAugmentation, TestTransform
+from tensorboardX import SummaryWriter
 
 parser = argparse.ArgumentParser(
 	description='Mobile Video Object Detection (Bottleneck LSTM) Training With Pytorch')
 
 parser.add_argument('--datasets', help='Dataset directory path')
-parser.add_argument('--cache_path', help='Cache directory path')
+parser.add_argument('--cache_path',  default='cache',help='Cache directory path')
 parser.add_argument('--width_mult', default=1.0, type=float,
 					help='Width Multiplifier')
 
 # Params for SGD
-parser.add_argument('--lr', '--learning-rate', default=0.003, type=float,
+parser.add_argument('--lr', '--learning-rate', default=0.0003, type=float,
 					help='initial learning rate')
 parser.add_argument('--momentum', default=0.9, type=float,
 					help='Momentum value for optim')
@@ -76,7 +77,7 @@ parser.add_argument('--num_epochs', default=200, type=int,
 					help='the number epochs')
 parser.add_argument('--num_workers', default=4, type=int,
 					help='Number of workers used in dataloading')
-parser.add_argument('--validation_epochs', default=5, type=int,
+parser.add_argument('--validation_epochs', default=1, type=int,
 					help='the number epochs')
 parser.add_argument('--debug_steps', default=100, type=int,
 					help='Set the debug log output frequency.')
@@ -97,7 +98,7 @@ if args.use_cuda and torch.cuda.is_available():
 	logging.info("Use Cuda.")
 
 
-def train(loader, net, criterion, optimizer, device, debug_steps=100, epoch=-1):
+def train(loader, net, criterion, optimizer, device, debug_steps=100, epoch=-1, writer=None):
 	""" Train model
 	Arguments:
 		net : object of MobileVOD class
@@ -139,6 +140,11 @@ def train(loader, net, criterion, optimizer, device, debug_steps=100, epoch=-1):
 				f"Average Regression Loss {avg_reg_loss:.4f}, " +
 				f"Average Classification Loss: {avg_clf_loss:.4f}"
 			)
+
+			writer.add_scalar('train_loss',avg_loss,len(loader)*epoch+i)
+			writer.add_scalar('train_regression_loss', avg_reg_loss, len(loader) * epoch + i)
+			writer.add_scalar('train_classification_loss', avg_clf_loss, len(loader) * epoch + i)
+
 			running_loss = 0.0
 			running_regression_loss = 0.0
 			running_classification_loss = 0.0
@@ -193,7 +199,7 @@ def initialize_model(net):
 
 if __name__ == '__main__':
 	timer = Timer()
-
+	writer=SummaryWriter('tensorboard')
 	logging.info(args)
 	config = mobilenetv1_ssd_config	#config file for priors etc.
 	train_transform = TrainAugmentation(config.image_size, config.image_mean, config.image_std)
@@ -205,6 +211,7 @@ if __name__ == '__main__':
 	logging.info("Prepare training datasets.")
 	train_dataset = ImagenetDataset(args.datasets, args.cache_path, transform=train_transform,
 								 target_transform=target_transform)
+	# 把类别写到 models/vid-model-labels.txt
 	label_file = os.path.join(args.checkpoint_folder, "vid-model-labels.txt")
 	store_labels(label_file, train_dataset._classes_names)
 	num_classes = len(train_dataset._classes_names)
@@ -226,6 +233,7 @@ if __name__ == '__main__':
 	logging.info("Build network.")
 	pred_enc = MobileNetV1(num_classes=num_classes, alpha = args.width_mult)
 	pred_dec = SSD(num_classes=num_classes, alpha = args.width_mult, is_test=False)
+	# 是重新训练还是resume
 	if args.resume is None:
 		net = MobileVOD(pred_enc, pred_dec)
 		initialize_model(net)
@@ -263,15 +271,17 @@ if __name__ == '__main__':
 	# 	logging.fatal(f"Unsupported Scheduler: {args.scheduler}.")
 	# 	parser.print_help(sys.stderr)
 	# 	sys.exit(1)
-	output_path = os.path.join(args.checkpoint_folder, f"basenet")
+	output_path = os.path.join(args.checkpoint_folder, f"basenet",'batch%s_lr%s'%(args.batch_size,args.lr))
 	if not os.path.exists(output_path):
 		os.makedirs(os.path.join(output_path))
 	logging.info(f"Start training from epoch {last_epoch + 1}.")
+
+	writer=SummaryWriter(output_path)
 	for epoch in range(last_epoch + 1, args.num_epochs):
 		#scheduler.step()
 		train(train_loader, net, criterion, optimizer,
-			  device=DEVICE, debug_steps=args.debug_steps, epoch=epoch)
-		
+			  device=DEVICE, debug_steps=args.debug_steps, epoch=epoch, writer=writer)
+
 		if epoch % args.validation_epochs == 0 or epoch == args.num_epochs - 1:
 			val_loss, val_regression_loss, val_classification_loss = val(val_loader, net, criterion, DEVICE)
 			logging.info(
@@ -280,6 +290,11 @@ if __name__ == '__main__':
 				f"Validation Regression Loss {val_regression_loss:.4f}, " +
 				f"Validation Classification Loss: {val_classification_loss:.4f}"
 			)
+
+			writer.add_scalar('val_loss',val_loss,epoch)
+			writer.add_scalar('val_regression_loss', val_regression_loss, epoch)
+			writer.add_scalar('val_classification_loss', val_classification_loss, epoch)
+
 			model_path = os.path.join(output_path, f"WM-{args.width_mult}-Epoch-{epoch}-Loss-{val_loss}.pth")
 			torch.save(net.state_dict(), model_path)
 			logging.info(f"Saved model {model_path}")

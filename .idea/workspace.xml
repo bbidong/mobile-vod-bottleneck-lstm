@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="408a4139-74f5-475e-a37c-92f0854f6cc0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/datasets/get_VID_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/datasets/get_VID_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datasets/get_VID_seq_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/datasets/get_VID_seq_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datasets/vid_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/datasets/vid_dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datasets/vid_dataset_new.py" beforeDir="false" afterPath="$PROJECT_DIR$/datasets/vid_dataset_new.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/evaluate.py" beforeDir="false" afterPath="$PROJECT_DIR$/evaluate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/network/predictor.py" beforeDir="false" afterPath="$PROJECT_DIR$/network/predictor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train_mvod_basenet.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_mvod_basenet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transforms/transforms.py" beforeDir="false" afterPath="$PROJECT_DIR$/transforms/transforms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/box_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/box_utils.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1a7Rp41loVWWJS3VNcUhENoK9jC" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="reference.idesettings.debugger.python" />
+  </component>
+  <component name="PyDebuggerOptionsProvider">
+    <option name="mySupportGeventDebugging" value="true" />
+  </component>
+  <component name="RunManager" selected="Python.evaluate">
+    <configuration name="evaluate" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="mobile-vod-bottleneck-lstm" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/evaluate.py" />
+      <option name="PARAMETERS" value="--net basenet" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="get_VID_list" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="mobile-vod-bottleneck-lstm" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/datasets" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/datasets/get_VID_list.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="mvod_basenet" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mobile-vod-bottleneck-lstm" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/network" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/network/mvod_basenet.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="train_mvod_basenet" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="mobile-vod-bottleneck-lstm" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/train_mvod_basenet.py" />
+      <option name="PARAMETERS" value="--datasets datasets/ILSVRC2017_VID/ILSVRC" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.evaluate" />
+      <item itemvalue="Python.get_VID_list" />
+      <item itemvalue="Python.train_mvod_basenet" />
+      <item itemvalue="Python.mvod_basenet" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.evaluate" />
+        <item itemvalue="Python.train_mvod_basenet" />
+        <item itemvalue="Python.mvod_basenet" />
+        <item itemvalue="Python.get_VID_list" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="408a4139-74f5-475e-a37c-92f0854f6cc0" name="Default Changelist" comment="" />
+      <created>1586084824281</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1586084824281</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="245" y="60" width="1125" height="782" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1589685886503">
+      <screen x="81" y="30" width="1839" height="1050" />
+    </state>
+    <state x="173" y="42" key="#com.intellij.execution.impl.EditConfigurationsDialog/57.21.1303.747@57.21.1303.747" timestamp="1589293333586" />
+    <state x="245" y="60" width="1125" height="782" key="#com.intellij.execution.impl.EditConfigurationsDialog/81.30.1839.1050@81.30.1839.1050" timestamp="1589685886503" />
+    <state width="1140" height="437" key="DebuggerActiveHint" timestamp="1589292819502">
+      <screen x="57" y="21" width="1303" height="747" />
+    </state>
+    <state width="1140" height="437" key="DebuggerActiveHint/57.21.1303.747@57.21.1303.747" timestamp="1589292819502" />
+    <state x="496" y="128" key="FileChooserDialogImpl" timestamp="1589190400050">
+      <screen x="57" y="21" width="1303" height="747" />
+    </state>
+    <state x="496" y="128" key="FileChooserDialogImpl/57.21.1303.747@57.21.1303.747" timestamp="1589190400050" />
+    <state width="1804" height="289" key="GridCell.Tab.0.bottom" timestamp="1590309629545">
+      <screen x="81" y="30" width="1839" height="1050" />
+    </state>
+    <state width="1282" height="110" key="GridCell.Tab.0.bottom/57.21.1303.747@57.21.1303.747" timestamp="1589361283439" />
+    <state width="1804" height="289" key="GridCell.Tab.0.bottom/81.30.1839.1050@81.30.1839.1050" timestamp="1590309629545" />
+    <state width="1804" height="289" key="GridCell.Tab.0.center" timestamp="1590309629544">
+      <screen x="81" y="30" width="1839" height="1050" />
+    </state>
+    <state width="1282" height="110" key="GridCell.Tab.0.center/57.21.1303.747@57.21.1303.747" timestamp="1589361283438" />
+    <state width="1804" height="289" key="GridCell.Tab.0.center/81.30.1839.1050@81.30.1839.1050" timestamp="1590309629544" />
+    <state width="1804" height="289" key="GridCell.Tab.0.left" timestamp="1590309629543">
+      <screen x="81" y="30" width="1839" height="1050" />
+    </state>
+    <state width="1282" height="110" key="GridCell.Tab.0.left/57.21.1303.747@57.21.1303.747" timestamp="1589361283438" />
+    <state width="1804" height="289" key="GridCell.Tab.0.left/81.30.1839.1050@81.30.1839.1050" timestamp="1590309629543" />
+    <state width="1804" height="289" key="GridCell.Tab.0.right" timestamp="1590309629544">
+      <screen x="81" y="30" width="1839" height="1050" />
+    </state>
+    <state width="1282" height="110" key="GridCell.Tab.0.right/57.21.1303.747@57.21.1303.747" timestamp="1589361283438" />
+    <state width="1804" height="289" key="GridCell.Tab.0.right/81.30.1839.1050@81.30.1839.1050" timestamp="1590309629544" />
+    <state width="1805" height="321" key="GridCell.Tab.1.bottom" timestamp="1589975419421">
+      <screen x="81" y="30" width="1839" height="1050" />
+    </state>
+    <state width="1282" height="110" key="GridCell.Tab.1.bottom/57.21.1303.747@57.21.1303.747" timestamp="1589361283440" />
+    <state width="1805" height="321" key="GridCell.Tab.1.bottom/81.30.1839.1050@81.30.1839.1050" timestamp="1589975419421" />
+    <state width="1805" height="321" key="GridCell.Tab.1.center" timestamp="1589975419421">
+      <screen x="81" y="30" width="1839" height="1050" />
+    </state>
+    <state width="1282" height="110" key="GridCell.Tab.1.center/57.21.1303.747@57.21.1303.747" timestamp="1589361283439" />
+    <state width="1805" height="321" key="GridCell.Tab.1.center/81.30.1839.1050@81.30.1839.1050" timestamp="1589975419421" />
+    <state width="1805" height="321" key="GridCell.Tab.1.left" timestamp="1589975419420">
+      <screen x="81" y="30" width="1839" height="1050" />
+    </state>
+    <state width="1282" height="110" key="GridCell.Tab.1.left/57.21.1303.747@57.21.1303.747" timestamp="1589361283439" />
+    <state width="1805" height="321" key="GridCell.Tab.1.left/81.30.1839.1050@81.30.1839.1050" timestamp="1589975419420" />
+    <state width="1805" height="321" key="GridCell.Tab.1.right" timestamp="1589975419421">
+      <screen x="81" y="30" width="1839" height="1050" />
+    </state>
+    <state width="1282" height="110" key="GridCell.Tab.1.right/57.21.1303.747@57.21.1303.747" timestamp="1589361283440" />
+    <state width="1805" height="321" key="GridCell.Tab.1.right/81.30.1839.1050@81.30.1839.1050" timestamp="1589975419421" />
+    <state x="230" y="30" width="1350" height="1050" key="SettingsEditor" timestamp="1589943653150">
+      <screen x="81" y="30" width="1839" height="1050" />
+    </state>
+    <state x="230" y="30" width="1350" height="1050" key="SettingsEditor/81.30.1839.1050@81.30.1839.1050" timestamp="1589943653150" />
+  </component>
+</project>

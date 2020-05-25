@@ -188,7 +188,7 @@ class ImagenetDataset:
 
 	def get_image(self, index):
 		image_id = self.ids[index]
-		image = self._read_image(image_id)
+		image = self._read_image(image_id)   # RGB
 		if self.transform:
 			image, _ = self.transform(image)
 		return image

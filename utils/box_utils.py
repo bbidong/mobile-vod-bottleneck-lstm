@@ -134,16 +134,16 @@ def iou_of(boxes0, boxes1, eps=1e-5):
 	"""Return intersection-over-union (Jaccard index) of boxes.
 
 	Args:
-		boxes0 (N, 4): ground truth boxes.
-		boxes1 (N or 1, 4): predicted boxes.
+		boxes0 (N or 1, 4): predicted boxes
+		boxes1 (N, 4): ground truth boxes.
 		eps: a small number to avoid 0 as denominator.
 	Returns:
-		iou (N): IoU values.
+		iou (N): IoU values.   predicted boxes和每个ground truth boxes 的 IoU
 	"""
-	overlap_left_top = torch.max(boxes0[..., :2], boxes1[..., :2])
-	overlap_right_bottom = torch.min(boxes0[..., 2:], boxes1[..., 2:])
+	overlap_left_top = torch.max(boxes0[..., :2], boxes1[..., :2])  # overlap部分的左上角   (torch.max(input, other, out=None),有广播功能)
+	overlap_right_bottom = torch.min(boxes0[..., 2:], boxes1[..., 2:])   # overlap部分的右下角
 
-	overlap_area = area_of(overlap_left_top, overlap_right_bottom)
+	overlap_area = area_of(overlap_left_top, overlap_right_bottom)  # predicted boxes和每个ground truth boxes 的 overlap_area
 	area0 = area_of(boxes0[..., :2], boxes0[..., 2:])
 	area1 = area_of(boxes1[..., :2], boxes1[..., 2:])
 	return overlap_area / (area0 + area1 - overlap_area + eps)
